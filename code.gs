@@ -34,11 +34,11 @@ function generateCertificatesFromSlides() {
   const runningNumberColumnIndex = headers.indexOf("NO_SIRI"); // Add this line
 
   // 3. Load certificate template (replace with your Slides template ID)
-  const certificateTemplateId = "1yDCy1F29PgKRsodgReOvLO3r0vdyOWwWBWeAgWf_T_M";  // <--- IMPORTANT: Replace with your Slides template ID
+  const certificateTemplateId = "replace with ID";  // <--- IMPORTANT: Replace with your Slides template ID
   const certificateTemplate = DriveApp.getFileById(certificateTemplateId);
 
   // 4. Create a folder for generated certificates
-  const outputFolderId = "1ve-4hrjb-pDZvg_W47f9xzpIYQzcbrqM";  // <--- IMPORTANT: Replace with your output folder ID
+  const outputFolderId = "replace with folder ID";  // <--- IMPORTANT: Replace with your output folder ID
   let outputFolder;
   if (outputFolderId) {
     outputFolder = DriveApp.getFolderById(outputFolderId);
