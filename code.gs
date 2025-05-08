@@ -1,11 +1,7 @@
 function onSubmit(e) {
   // Get the form response data
   const responses = e.namedValues;
-  const timestamp = responses['Timestamp'][0];
-  const fullName = responses['NAMA PENUH'][0];
-  const organization = responses['ORGANISASI'][0];
-  const email = responses['EMAIL'][0];
-
+ 
   // Get the active Google Sheet and the responses sheet
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const responsesSheet = ss.getSheetByName('Form Responses 1'); // Assuming your form responses are in 'Form Responses 1'
@@ -27,18 +23,19 @@ function generateCertificatesFromSlides() {
 
   // 2. Define the column headers
   const headers = data[0];
-  const nameColumnIndex = headers.indexOf("NAMA PENUH");
-  const emailColumnIndex = headers.indexOf("EMAIL");
-  const organizationColumnIndex = headers.indexOf("ORGANISASI");
-  const statusColumnIndex = headers.indexOf("STATUS");
+  const nameColumnIndex = headers.indexOf("Nama Penuh");
+  const emailColumnIndex = headers.indexOf("Email");
+  const organizationColumnIndex = headers.indexOf("Jabatan");
+  const statusColumnIndex = headers.indexOf("Status");
+  const icColumnIndex = headers.indexOf("No KP");
   const runningNumberColumnIndex = headers.indexOf("NO_SIRI"); // Add this line
 
   // 3. Load certificate template (replace with your Slides template ID)
-  const certificateTemplateId = "1yDCy1F29PgKRsodgReOvLO3r0vdyOWwWBWeAgWf_T_M";  // <--- IMPORTANT: Replace with your Slides template ID
+  const certificateTemplateId = "1bhX1iA5TWeeDOOKnz7n9MOUdApe3bRxJk7Xtua1mr4M";  // <--- IMPORTANT: Replace with your Slides template ID
   const certificateTemplate = DriveApp.getFileById(certificateTemplateId);
 
   // 4. Create a folder for generated certificates
-  const outputFolderId = "1ve-4hrjb-pDZvg_W47f9xzpIYQzcbrqM";  // <--- IMPORTANT: Replace with your output folder ID
+  const outputFolderId = "1AASSofQSjyWLuNQC8biR5QBqMhb1Do4R";  // <--- IMPORTANT: Replace with your output folder ID
   let outputFolder;
   if (outputFolderId) {
     outputFolder = DriveApp.getFolderById(outputFolderId);
@@ -67,10 +64,13 @@ function generateCertificatesFromSlides() {
     const row = data[i];
     const status = row[statusColumnIndex];
 
+    console.log(status);
+
     if (status === "Approved") {
       const name = row[nameColumnIndex];
       const email = row[emailColumnIndex];
       const organization = row[organizationColumnIndex];
+      const nokp = row[icColumnIndex];
    
 
       // 7. Generate the running number string
@@ -86,8 +86,8 @@ function generateCertificatesFromSlides() {
       const slide = presentation.getSlides()[0]; // Get the first slide
 
       // 9. Replace placeholders in the slide with attendee data
-      replaceAllTextInSlide(slide, "{{NAME}}", name.toUpperCase());
-      replaceAllTextInSlide(slide, "{{organisasi}}", organization);
+      replaceAllTextInSlide(slide, "{{Nama Penuh}}", name);
+      replaceAllTextInSlide(slide, "{{No KP}}", nokp);
       replaceAllTextInSlide(slide, "{{no_siri}}", runningNumberString); // Add this line
 
       // 10. Save the presentation
